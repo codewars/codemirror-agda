@@ -1,0 +1,54 @@
+<!doctype html>
+<head>
+<title>CodeMirror: Agda mode</title>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/theme/base16-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.css">
+<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<style>
+.CodeMirror-hints.base16-dark {
+  font-size: 100%;
+  background: black;
+  color: white;
+}
+.base16-dark .CodeMirror-hint {
+  color: white;
+}
+.base16-dark .CodeMirror-hint-active {
+  background: #c0c0c0;
+  color: black;
+}
+</style>
+</head>
+
+<body>
+<article>
+
+<h2>Agda mode</h2>
+<form>
+<textarea id="code" name="code">
+{-# OPTIONS --safe #-}
+module Example where
+open import Agda.Builtin.Equality
+
+_⇆_ : {A : Set} {a b c : A} → a ≡ b → b ≡ c → a ≡ c
+refl ⇆ refl = refl
+</textarea>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/mode/simple.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.js"></script>
+<script src="../dist/agda.js"></script>
+<script>
+  const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    mode: "agda",
+    lineNumbers: true,
+    theme: "base16-dark",
+  });
+</script>
+
+<p><strong>MIME types defined:</strong> <code>text/x-agda</code>.</p>
+</article>
+</body>

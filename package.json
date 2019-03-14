@@ -1,0 +1,27 @@
+{
+  "name": "codemirror-agda",
+  "version": "0.0.1",
+  "description": "Agda mode and input helper for CodeMirror",
+  "homepage": "https://github.com/Codewars/codemirror-agda#readme",
+  "repository": "github:Codewars/codemirror-agda",
+  "bugs": {
+    "url": "https://github.com/Codewars/codemirror-agda/issues"
+  },
+  "main": "dist/agda.js",
+  "files": [
+    "dist/agda.js"
+  ],
+  "module": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup src/index.js --file dist/agda.js --format umd --globals codemirror:CodeMirror"
+  },
+  "peerDependencies": {
+    "codemirror": "5.x"
+  },
+  "devDependencies": {
+    "codemirror": "^5.44.0",
+    "rollup": "^1.6.0"
+  },
+  "dependencies": {}
+}
