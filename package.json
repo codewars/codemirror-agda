@@ -7,14 +7,14 @@
   "bugs": {
     "url": "https://github.com/Codewars/codemirror-agda/issues"
   },
-  "main": "dist/agda.js",
+  "main": "docs/agda.js",
   "files": [
-    "dist/agda.js"
+    "docs/agda.js"
   ],
   "module": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "rollup src/index.js --file dist/agda.js --format umd --globals codemirror:CodeMirror"
+    "build": "rollup src/index.js --file docs/agda.js --format umd --globals codemirror:CodeMirror"
   },
   "peerDependencies": {
     "codemirror": "5.x"
