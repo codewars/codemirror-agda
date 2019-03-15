@@ -35,12 +35,27 @@ const createHint = table => (editor, _options) => {
 
 // TODO Is it possible to disable running this hook in other modes?
 CodeMirror.defineInitHook(function(cm) {
-  cm.addKeyMap({
-    "\\": function(cm) {
-      cm.replaceSelection("\\");
+  let additionalKeyMap = {};
+  let keys = [
+    ["\\", "\\"],
+    ["Shift-9", "("],
+    ["Shift-0", ")"],
+    ["Shift-[", "{"],
+    ["Shift-]", "}"],
+    ["[", "["],
+    ["]", "]"],
+    [";", ";"],
+    ["Shift-;", ":"],
+    [",", ","],
+    ["Shift-.", ">"]
+  ];
+  for (let [keyStroke, ch] of keys) {
+    additionalKeyMap[keyStroke] = function(cm) {
+      cm.replaceSelection(ch);
       cm.execCommand("autocomplete");
-    },
-  });
+    };
+  }
+  cm.addKeyMap(additionalKeyMap);
 
   const cmplOpt = cm.getOption("hintOptions") || {};
   cmplOpt["extraKeys"] = {
@@ -53,6 +68,7 @@ CodeMirror.defineInitHook(function(cm) {
       }
     },
   };
+  cmplOpt["completeSingle"] = false;
   cm.setOption("hintOptions", cmplOpt);
 });
 
