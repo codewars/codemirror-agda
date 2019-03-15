@@ -42,6 +42,7 @@ const startState = [
   { regex: keywordsRegex, token: "keyword" },
   { regex: /[^\s.;{}()@"]+\./u, token: "qualifier" },
   { regex: /[^\s.;{}()@"]+/u, token: null },
+  { regex: /./u, token: null },
 ];
 
 const commentState = [
