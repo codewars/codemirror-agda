@@ -24,9 +24,9 @@ CodeMirror.defineInitHook(function(cm) {
     },
   });
 
-  const cmplOpt = cm.getOption("hintOptions") || {};
-  cmplOpt.extraKeys = {
-    // Complete using space
+  const hintOptions = cm.getOption("hintOptions") || {};
+  hintOptions.extraKeys = {
+    // Complete with selected and insert space.
     Space: function(cm) {
       const cA = cm.state.completionActive;
       if (cA) {
@@ -37,10 +37,10 @@ CodeMirror.defineInitHook(function(cm) {
   };
   // Use custom `closeCharacters` to allow text with ()[]{};:>,
   // Note that this isn't documented.
-  cmplOpt.closeCharacters = /[\s]/;
+  hintOptions.closeCharacters = /[\s]/;
   // Disable auto completing even if there's only one choice.
-  cmplOpt.completeSingle = false;
-  cm.setOption("hintOptions", cmplOpt);
+  hintOptions.completeSingle = false;
+  cm.setOption("hintOptions", hintOptions);
 });
 
 CodeMirror.registerGlobalHelper(
