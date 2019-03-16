@@ -1,8 +1,11 @@
+const hint = (cm, self, data) =>
+  cm.replaceRange(data.symbol, self.from, self.to);
+
 const cmObj = (k, v) => ({
   text: "\\" + k,
   symbol: v,
   displayText: `${v} \\${k}`,
-  hint: null,
+  hint: hint,
 });
 
 const toTable = pairs =>

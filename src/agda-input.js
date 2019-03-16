@@ -5,31 +5,19 @@ import CodeMirror from "codemirror";
 import { translations } from "./translations";
 
 // Returns CodeMirror hint function.
-// TODO Doesn't seem to work for some characters like `(`
 const createHint = table => (editor, _options) => {
   const cur = editor.getCursor();
-  const curPos = { line: cur.line, ch: cur.ch };
+  const matchStart = { line: cur.line, ch: cur.ch };
   const matchEnd = { line: cur.line, ch: cur.ch };
   // Match backwards from the cursor to the back slash.
   let match = "";
-  while (curPos.ch >= 0) {
-    --curPos.ch;
-    match = editor.getRange(curPos, matchEnd);
+  while (matchStart.ch >= 0) {
+    --matchStart.ch;
+    match = editor.getRange(matchStart, matchEnd);
     if (match[0] === "\\") break;
   }
 
-  const matchStart = curPos;
-  const insertFun = (cm, _self, data) =>
-    cm.replaceRange(data.symbol, matchStart, matchEnd);
-
-  const list = [];
-  for (const obj of table) {
-    if (obj.text.startsWith(match)) {
-      obj.hint = insertFun;
-      list.push(obj);
-    }
-  }
-
+  const list = table.filter(o => o.text.startsWith(match));
   return { list: list, from: matchStart, to: matchEnd };
 };
 
