@@ -40,25 +40,41 @@ refl ⇆ refl = refl
 
 <hr>
 
-<label for="mode-select">Mode:</label>
-<select id="mode-select">
-  <option value="agda">Agda</option>
-  <option value="haskell">Haskell</option>
-</select>
+<div id="selects">
+  <label for="mode-select">Mode:</label>
+  <select id="mode-select" data-option-key="mode">
+    <option value="agda">Agda</option>
+    <option value="haskell">Haskell</option>
+  </select>
+
+  <label for="keymap-select">KeyMap:</label>
+  <select id="keymap-select" data-option-key="keyMap">
+    <option value="default">Default</option>
+    <option value="sublime">Sublime Text</option>
+    <option value="vim">Vim</option>
+    <option value="emacs">Emacs</option>
+  </select>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/mode/simple.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/haskell/haskell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/vim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/emacs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/sublime.min.js"></script>
 <script src="agda.js"></script>
 <script>
   const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     mode: "agda",
     lineNumbers: true,
     theme: "base16-dark",
+    keyMap: "default",
   });
-  document.getElementById("mode-select").addEventListener("change", function(e) {
-    editor.setOption("mode", e.target.value);
+
+  document.getElementById("selects").addEventListener("change", function(e) {
+    editor.setOption(e.target.dataset.optionKey, e.target.value);
+    e.stopPropagation();
   });
 </script>
 
