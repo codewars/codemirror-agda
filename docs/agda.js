@@ -505,19 +505,13 @@
 
   // Returns CodeMirror hint function.
   const createHint = table => (editor, _options) => {
-    const cur = editor.getCursor();
-    const matchStart = { line: cur.line, ch: cur.ch };
-    const matchEnd = { line: cur.line, ch: cur.ch };
-    // Match backwards from the cursor to the back slash.
-    let match = "";
-    while (matchStart.ch >= 0) {
-      --matchStart.ch;
-      match = editor.getRange(matchStart, matchEnd);
-      if (match[0] === "\\") break;
-    }
+    const to = editor.getCursor();
+    const str = editor.getLine(to.line).slice(0, to.ch);
+    const from = { line: to.line, ch: str.lastIndexOf("\\") };
 
-    const list = table.filter(o => o.text.startsWith(match));
-    return { list: list, from: matchStart, to: matchEnd };
+    const combo = editor.getRange(from, to);
+    const list = table.filter(o => o.text.startsWith(combo));
+    return { list: list, from: from, to: to };
   };
 
   // TODO Is it possible to disable running this hook in other modes?
