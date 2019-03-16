@@ -14,7 +14,8 @@
   "module": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "rollup src/index.js --file docs/agda.js --format umd --globals codemirror:CodeMirror"
+    "build": "rollup -i src/index.js -o docs/agda.js --format umd --globals codemirror:CodeMirror",
+    "watch": "rollup -w -i src/index.js -o docs/agda.js --format umd --globals codemirror:CodeMirror"
   },
   "peerDependencies": {
     "codemirror": "5.x"

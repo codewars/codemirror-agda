@@ -531,30 +531,15 @@
 
   // TODO Is it possible to disable running this hook in other modes?
   CodeMirror.defineInitHook(function(cm) {
-    let additionalKeyMap = {};
-    let keys = [
-      ["\\", "\\"],
-      ["Shift-9", "("],
-      ["Shift-0", ")"],
-      ["Shift-[", "{"],
-      ["Shift-]", "}"],
-      ["[", "["],
-      ["]", "]"],
-      [";", ";"],
-      ["Shift-;", ":"],
-      [",", ","],
-      ["Shift-.", ">"]
-    ];
-    for (let [keyStroke, ch] of keys) {
-      additionalKeyMap[keyStroke] = function(cm) {
-        cm.replaceSelection(ch);
+    cm.addKeyMap({
+      "\\": function(cm) {
+        cm.replaceSelection("\\");
         cm.execCommand("autocomplete");
-      };
-    }
-    cm.addKeyMap(additionalKeyMap);
+      },
+    });
 
     const cmplOpt = cm.getOption("hintOptions") || {};
-    cmplOpt["extraKeys"] = {
+    cmplOpt.extraKeys = {
       // Complete using space
       Space: function(cm) {
         const cA = cm.state.completionActive;
@@ -564,7 +549,11 @@
         }
       },
     };
-    cmplOpt["completeSingle"] = false;
+    // Use custom `closeCharacters` to allow text with ()[]{};:>,
+    // Note that this isn't documented.
+    cmplOpt.closeCharacters = /[\s]/;
+    // Disable auto completing even if there's only one choice.
+    cmplOpt.completeSingle = false;
     cm.setOption("hintOptions", cmplOpt);
   });
 
