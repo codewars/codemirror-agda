@@ -484,7 +484,7 @@
     ["_k", "ₖ"], ["_l", "ₗ"], ["_m", "ₘ"], ["_n", "ₙ"], ["_o", "ₒ"],
     ["_p", "ₚ"], ["_r", "ᵣ"], ["_s", "ₛ"], ["_t", "ₜ"], ["_u", "ᵤ"],
     ["_x", "ₓ"],
-    
+
     ["^0", "⁰"], ["^1", "¹"], ["^2", "²"], ["^3", "³"], ["^4", "⁴"],
     ["^5", "⁵"], ["^6", "⁶"], ["^7", "⁷"], ["^8", "⁸"], ["^9", "⁹"],
 
@@ -532,10 +532,6 @@
   // TODO Is it possible to disable running this hook in other modes?
   CodeMirror.defineInitHook(function(cm) {
     let additionalKeyMap = {};
-    let func = function(cm) {
-      cm.replaceSelection("\\");
-      cm.execCommand("autocomplete");
-    };
     let keys = [
       ["\\", "\\"],
       ["Shift-9", "("],
