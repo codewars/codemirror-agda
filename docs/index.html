@@ -36,10 +36,20 @@ _⇆_ : {A : Set} {a b c : A} → a ≡ b → b ≡ c → a ≡ c
 refl ⇆ refl = refl
 </textarea>
 </form>
+<p><strong>MIME types defined:</strong> <code>text/x-agda</code>.</p>
+
+<hr>
+
+<label for="mode-select">Mode:</label>
+<select id="mode-select">
+  <option value="agda">Agda</option>
+  <option value="haskell">Haskell</option>
+</select>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/mode/simple.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/haskell/haskell.min.js"></script>
 <script src="agda.js"></script>
 <script>
   const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -47,8 +57,10 @@ refl ⇆ refl = refl
     lineNumbers: true,
     theme: "base16-dark",
   });
+  document.getElementById("mode-select").addEventListener("change", function(e) {
+    editor.setOption("mode", e.target.value);
+  });
 </script>
 
-<p><strong>MIME types defined:</strong> <code>text/x-agda</code>.</p>
 </article>
 </body>
