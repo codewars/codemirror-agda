@@ -45,6 +45,7 @@ refl ⇆ refl = refl
   <select id="mode-select" data-option-key="mode">
     <option value="agda">Agda</option>
     <option value="haskell">Haskell</option>
+    <option value="python">Python</option>
   </select>
 
   <label for="keymap-select">KeyMap:</label>
@@ -60,20 +61,58 @@ refl ⇆ refl = refl
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/mode/simple.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/haskell/haskell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/python/python.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/vim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/emacs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/sublime.min.js"></script>
 <script src="agda.js"></script>
 <script>
+  const autocompleteKeyMap = {
+    "\\": function(cm) {
+      cm.replaceSelection("\\");
+      cm.execCommand("autocomplete");
+    },
+  };
+  const hintOptions = {
+    extraKeys: {
+      // Complete with selected and insert space.
+      Space: function(cm) {
+        const cA = cm.state.completionActive;
+        if (cA) {
+          cA.widget.pick();
+          cm.replaceSelection(" ");
+        }
+      },
+    },
+    // Use custom `closeCharacters` to allow text with ()[]{};:>,
+    // Note that this isn't documented.
+    closeCharacters: /[\s]/,
+    // Disable auto completing even if there's only one choice.
+    completeSingle: false,
+  };
+
+  // hook to only enable completion in agda mode
+  function setOption(editor, key, value) {
+    if (key === "mode") {
+      if (value === "agda") {
+        editor.addKeyMap(autocompleteKeyMap);
+        editor.setOption("hintOptions", hintOptions);
+      } else {
+        editor.removeKeyMap(autocompleteKeyMap);
+        editor.setOption("hintOptions", undefined);
+      }
+    }
+    editor.setOption(key, value);
+  }
+
   const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    mode: "agda",
     lineNumbers: true,
     theme: "base16-dark",
     keyMap: "default",
   });
-
+  setOption(editor, "mode", "agda");
   document.getElementById("selects").addEventListener("change", function(e) {
-    editor.setOption(e.target.dataset.optionKey, e.target.value);
+    setOption(editor, e.target.dataset.optionKey, e.target.value);
     e.stopPropagation();
   });
 </script>
