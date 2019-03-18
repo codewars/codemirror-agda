@@ -514,34 +514,6 @@
     return { list: list, from: from, to: to };
   };
 
-  // TODO Is it possible to disable running this hook in other modes?
-  CodeMirror.defineInitHook(function(cm) {
-    cm.addKeyMap({
-      "\\": function(cm) {
-        cm.replaceSelection("\\");
-        cm.execCommand("autocomplete");
-      },
-    });
-
-    const hintOptions = cm.getOption("hintOptions") || {};
-    hintOptions.extraKeys = {
-      // Complete with selected and insert space.
-      Space: function(cm) {
-        const cA = cm.state.completionActive;
-        if (cA) {
-          cA.widget.pick();
-          cm.replaceSelection(" ");
-        }
-      },
-    };
-    // Use custom `closeCharacters` to allow text with ()[]{};:>,
-    // Note that this isn't documented.
-    hintOptions.closeCharacters = /[\s]/;
-    // Disable auto completing even if there's only one choice.
-    hintOptions.completeSingle = false;
-    cm.setOption("hintOptions", hintOptions);
-  });
-
   CodeMirror.registerGlobalHelper(
     "hint",
     "agda-input",
