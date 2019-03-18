@@ -10,7 +10,7 @@ const keywordsRegex = new RegExp(
     "infix|infixl|infixr|instance|let|macro|module|mutual|no-eta-equality|" +
     "open|overlap|pattern|postulate|primitive|private|public|quote|" +
     "quoteContext|quoteGoal|quoteTerm|record|renaming|rewrite|" +
-    "syntax|tactic|unquote|unquoteDecl|unquoteDef|using|where|with|" +
+    "syntax|tactic|to|unquote|unquoteDecl|unquoteDef|using|variable|where|with|" +
     'Set(?:\\d+|[₀₁₂₃₄₅₆₇₈₉]+)?)(?=[.;{}()@"\\s]|$)',
   "u"
 );
