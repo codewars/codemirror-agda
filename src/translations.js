@@ -153,13 +153,13 @@ export const translations = toTable([
   // ["cu", "⌜⌝  ⌈⌉  "],
   // ["cl", "  ⌞⌟  ⌊⌋"],
   // ["cul", "⌜"],
-  // ["cuL", "⌈"],
+  ["cuL", "⌈"],
   // ["cur", "⌝"],
-  // ["cuR", "⌉"],
+  ["cuR", "⌉"],
   // ["cll", "⌞"],
-  // ["clL", "⌊"],
+  ["clL", "⌊"],
   // ["clr", "⌟"],
-  // ["clR", "⌋"],
+  ["clR", "⌋"],
 
   // Various operators/symbols.
   ["qed", "∎"],
