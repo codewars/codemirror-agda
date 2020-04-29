@@ -1,11 +1,11 @@
 {
-  "name": "codemirror-agda",
-  "version": "0.0.1",
+  "name": "@codewars/codemirror-agda",
+  "version": "0.1.0",
   "description": "Agda mode and input helper for CodeMirror",
-  "homepage": "https://github.com/Codewars/codemirror-agda#readme",
-  "repository": "github:Codewars/codemirror-agda",
+  "homepage": "https://github.com/codewars/codemirror-agda#readme",
+  "repository": "github:codewars/codemirror-agda",
   "bugs": {
-    "url": "https://github.com/Codewars/codemirror-agda/issues"
+    "url": "https://github.com/codewars/codemirror-agda/issues"
   },
   "main": "docs/agda.js",
   "files": [
