@@ -1,8 +1,0 @@
-{
-  "name": "codemirror-agda",
-  "description": "Agda mode and input helper for CodeMirror",
-  "main": "docs/agda.js",
-  "license": "MIT",
-  "homepage": "https://github.com/Codewars/codemirror-agda",
-  "ignore": ["**/.*", "node_modules"]
-}
