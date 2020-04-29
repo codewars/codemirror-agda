@@ -1,0 +1,121 @@
+<!doctype html>
+<head>
+<title>CodeMirror: Agda mode</title>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/theme/base16-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.css">
+<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<style>
+.CodeMirror-hints.base16-dark {
+  font-size: 100%;
+  background: black;
+  color: white;
+}
+.base16-dark .CodeMirror-hint {
+  color: white;
+}
+.base16-dark .CodeMirror-hint-active {
+  background: #c0c0c0;
+  color: black;
+}
+</style>
+</head>
+
+<body>
+<article>
+
+<h2>Agda mode</h2>
+<form>
+<textarea id="code" name="code">
+{-# OPTIONS --safe #-}
+module Example where
+open import Agda.Builtin.Equality
+
+_⇆_ : {A : Set} {a b c : A} → a ≡ b → b ≡ c → a ≡ c
+refl ⇆ refl = refl
+</textarea>
+</form>
+<p><strong>MIME types defined:</strong> <code>text/x-agda</code>.</p>
+
+<hr>
+
+<div id="selects">
+  <label for="mode-select">Mode:</label>
+  <select id="mode-select" data-option-key="mode">
+    <option value="agda">Agda</option>
+    <option value="haskell">Haskell</option>
+    <option value="python">Python</option>
+  </select>
+
+  <label for="keymap-select">KeyMap:</label>
+  <select id="keymap-select" data-option-key="keyMap">
+    <option value="default">Default</option>
+    <option value="sublime">Sublime Text</option>
+    <option value="vim">Vim</option>
+    <option value="emacs">Emacs</option>
+  </select>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/mode/simple.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/haskell/haskell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/vim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/emacs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/sublime.min.js"></script>
+<script src="codemirror-agda.js"></script>
+<script>
+  const autocompleteKeyMap = {
+    "\\": function(cm) {
+      cm.replaceSelection("\\");
+      cm.execCommand("autocomplete");
+    },
+  };
+  const hintOptions = {
+    extraKeys: {
+      // Complete with selected and insert space.
+      Space: function(cm) {
+        const cA = cm.state.completionActive;
+        if (cA) {
+          cA.widget.pick();
+          cm.replaceSelection(" ");
+        }
+      },
+    },
+    // Use custom `closeCharacters` to allow text with ()[]{};:>,
+    // Note that this isn't documented.
+    closeCharacters: /[\s]/,
+    // Disable auto completing even if there's only one choice.
+    completeSingle: false,
+  };
+
+  // hook to only enable completion in agda mode
+  function setOption(editor, key, value) {
+    if (key === "mode") {
+      if (value === "agda") {
+        editor.addKeyMap(autocompleteKeyMap);
+        editor.setOption("hintOptions", hintOptions);
+      } else {
+        editor.removeKeyMap(autocompleteKeyMap);
+        editor.setOption("hintOptions", undefined);
+      }
+    }
+    editor.setOption(key, value);
+  }
+
+  const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    lineNumbers: true,
+    theme: "base16-dark",
+    keyMap: "default",
+  });
+  setOption(editor, "mode", "agda");
+  document.getElementById("selects").addEventListener("change", function(e) {
+    setOption(editor, e.target.dataset.optionKey, e.target.value);
+    e.stopPropagation();
+  });
+</script>
+
+</article>
+</body>
