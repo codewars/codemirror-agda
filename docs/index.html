@@ -65,8 +65,18 @@ refl ⇆ refl = refl
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/vim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/emacs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/keymap/sublime.min.js"></script>
-<script src="codemirror-agda.js"></script>
+<script src="https://unpkg.com/@codewars/codemirror-unicode-helper@0.1.0/umd/codemirror-unicode-helper.min.js"></script>
+<script src="codemirror-agda.min.js"></script>
 <script>
+  CodeMirrorAgda.defineMode(CodeMirror);
+  CodeMirror.registerGlobalHelper(
+    "hint",
+    "agda-input",
+    // only enable in agda mode
+    (mode, cm) => mode && mode.name === "agda",
+    CodeMirrorUnicodeHelper.unicodeHelperWith(CodeMirrorAgda.UNICODE_HELPER_PAIRS)
+  );
+
   const autocompleteKeyMap = {
     "\\": function(cm) {
       cm.replaceSelection("\\");
