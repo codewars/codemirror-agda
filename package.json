@@ -1,6 +1,6 @@
 {
   "name": "@codewars/codemirror-agda",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CodeMirror extension for editing Agda",
   "homepage": "https://github.com/codewars/codemirror-agda#readme",
   "repository": "github:codewars/codemirror-agda",
