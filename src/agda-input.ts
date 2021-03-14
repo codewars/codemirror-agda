@@ -1,26 +1,21 @@
-const hint = (cm, self, data) =>
-  cm.replaceRange(data.symbol, self.from, self.to);
+import type { Pair } from "@codewars/codemirror-unicode-helper";
 
-const cmObj = (k, v) => ({
-  text: "\\" + k,
-  symbol: v,
-  displayText: `${v} \\${k}`,
-  hint: hint,
-});
-
-const toTable = pairs =>
-  pairs.reduce((a, p) => {
-    a.push.apply(
-      a,
-      Array.from(p[1].replace(/\s/g, "")).map(v => cmObj(p[0], v))
-    );
-    return a;
-  }, []).sort((a,b) => a.text.localeCompare(b.text));
+const toPairs = (trans: [string, string][]): Pair[] =>
+  trans
+    .reduce((a, [seq, syms]) => {
+      a.push.apply(
+        a,
+        Array.from(syms.replace(/\s/g, "")).map((v) => [seq, v] as Pair)
+      );
+      return a;
+    }, [] as Pair[])
+    .sort((a, b) => a[0].localeCompare(b[0]));
 
 // Subset of agda-input-translations + TeX-Input
 // TODO Add some more from TeX-Input
 // https://github.com/agda/agda/blob/master/src/data/emacs-mode/agda-input.el#L191
-export const translations = toTable([
+// prettier-ignore
+export const UNICODE_HELPER_PAIRS: Pair[] = toPairs([
   ["ell", "ℓ"],
   // Equality and similar symbols.
   // ["eq", "=∼∽≈≋∻∾∿≀≃⋍≂≅ ≌≊≡≣≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≍≎≏≬⋕"],

@@ -1,28 +1,37 @@
 {
   "name": "@codewars/codemirror-agda",
   "version": "0.1.0",
-  "description": "Agda mode and input helper for CodeMirror",
+  "description": "CodeMirror extension for editing Agda",
   "homepage": "https://github.com/codewars/codemirror-agda#readme",
   "repository": "github:codewars/codemirror-agda",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/codewars/codemirror-agda/issues"
   },
-  "main": "lib/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "files": [
     "lib/*",
-    "src/*"
+    "umd/*"
   ],
-  "module": "src/index.js",
-  "license": "MIT",
   "scripts": {
-    "prepare": "rollup -i src/index.js -o lib/index.js --format umd --external codemirror --globals codemirror:CodeMirror"
+    "prepare": "npm run build",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:umd:min",
+    "build:cjs": "tsc --target es2020 --module commonjs --outDir lib/cjs",
+    "build:esm": "tsc --target es2020 --module es2020 --outDir lib/esm",
+    "build:umd": "rollup lib/esm/index.js --format umd --name CodeMirrorAgda -o umd/codemirror-agda.js",
+    "build:umd:min": "terser umd/codemirror-agda.js -o umd/codemirror-agda.min.js"
   },
   "peerDependencies": {
     "codemirror": "5.x"
   },
   "devDependencies": {
+    "@codewars/codemirror-unicode-helper": "^0.1.0",
+    "@types/codemirror": "0.0.108",
     "codemirror": "^5.44.0",
-    "rollup": "^1.6.0"
+    "rollup": "^2.41.2",
+    "terser": "^5.6.0",
+    "typescript": "^4.2.3"
   },
   "dependencies": {}
 }

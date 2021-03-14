@@ -5,19 +5,15 @@ on:
       - master
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
-      - name: Install build deps
-        run: npm ci
-      - name: Prepare docs/
-        run: cp lib/index.js docs/codemirror-agda.js
-      - name: Deploy demo
-        uses: peaceiris/actions-gh-pages@v3
+          node-version: "12.x"
+      - run: npm ci
+      - run: cp umd/*.js docs/
+      - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs

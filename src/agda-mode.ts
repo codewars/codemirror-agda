@@ -1,5 +1,10 @@
-import CodeMirror from "codemirror";
-// Requires addon/mode/simple.js
+/// <reference types="codemirror/addon/mode/simple" />
+import type { defineMIME, defineSimpleMode } from "codemirror";
+
+export type CodeMirrorType = {
+  defineMIME: typeof defineMIME;
+  defineSimpleMode: typeof defineSimpleMode;
+};
 
 const floatRegex = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?(?=[.;{}()@"\s]|$)/u;
 const integerRegex = /-?(?:0|[1-9]\d*|0x[0-9A-Fa-f]+)(?=[.;{}()@"\s]|$)/u;
@@ -77,12 +82,18 @@ const stringState = [
   { regex: /./u, token: "string error" },
 ];
 
-CodeMirror.defineSimpleMode("agda", {
-  start: startState,
-  comment: commentState,
-  hole: holeState,
-  charLit: charLitState,
-  charLitEnd: charLitEndState,
-  strLit: stringState,
-});
-CodeMirror.defineMIME("text/x-agda", "agda");
+/**
+ * Defines `agda` mode and `text/x-agda` MIME.
+ * @param CodeMirror - CodeMirror
+ */
+export const defineMode = (CodeMirror: CodeMirrorType) => {
+  CodeMirror.defineSimpleMode("agda", {
+    start: startState,
+    comment: commentState,
+    hole: holeState,
+    charLit: charLitState,
+    charLitEnd: charLitEndState,
+    strLit: stringState,
+  });
+  CodeMirror.defineMIME("text/x-agda", "agda");
+};
