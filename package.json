@@ -29,7 +29,7 @@
     "@codewars/codemirror-unicode-helper": "^0.1.0",
     "@types/codemirror": "0.0.108",
     "codemirror": "^5.44.0",
-    "rollup": "^2.41.2",
+    "rollup": "^3.29.5",
     "terser": "^5.6.0",
     "typescript": "^4.2.3"
   },
